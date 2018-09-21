@@ -1,7 +1,7 @@
 #
 # Builder
 #
-FROM njm2112/caddy:builder as builder
+FROM njm2112/caddy-docker:builder as builder
 
 ARG version="0.11.0"
 ARG ${plugins:-"git,cloudflare,jwt,login,filter,cors,realip,filemanager,cache,expires"}
