@@ -35,7 +35,7 @@ fi
 # plugins
 for plugin in $(echo $PLUGINS | tr "," " "); do \
     go get -v $(caddyplug package $plugin); \
-    printf "package caddyhttp\nimport _ \"$(caddyplug package $plugins)\"" > \
+    printf "package caddyhttp\nimport _ \"$(caddyplug package $plugin)\"" > \
         /go/src/github.com/mholt/caddy/caddyhttp/$plugin.go ; \
     done
 
