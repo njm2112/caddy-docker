@@ -1,10 +1,10 @@
 #
 # Builder
 #
-FROM abiosoft/caddy:builder as builder
+FROM njm2112/caddy:builder as builder
 
 ARG version="0.11.0"
-ARG ${plugins:-"git,filemanager,cors,realip,expires,cache"}
+ARG ${plugins:-"git,cloudflare,jwt,login,filter,cors,realip,filemanager,cache,expires"}
 
 # process wrapper
 RUN go get -v github.com/abiosoft/parent
@@ -21,7 +21,7 @@ ARG version="0.11.0"
 LABEL caddy_version="$version"
 
 # Let's Encrypt Agreement
-ENV ACME_AGREE="false"
+ENV ACME_AGREE="true"
 
 # Telemetry Stats
 ENV ENABLE_TELEMETRY="false"
