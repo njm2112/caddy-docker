@@ -1,7 +1,7 @@
 #
 # Builder
 #
-FROM abiosoft/caddy:builder as builder
+FROM njm2112/caddy:builder as builder
 
 ARG version="0.11.0"
 ARG plugins="git,cloudflare,jwt,login,filter,cors,realip,filemanager,cache,expires"
@@ -21,7 +21,7 @@ ARG version="0.11.0"
 LABEL caddy_version="$version"
 
 # Let's Encrypt Agreement
-ENV ACME_AGREE="false"
+ENV ACME_AGREE="true"
 
 RUN apk add --no-cache openssh-client git
 
