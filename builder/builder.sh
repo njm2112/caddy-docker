@@ -1,8 +1,7 @@
 #!/bin/sh
 
-VERSION=${VERSION:-"0.11.0"}
-TELEMETRY=${ENABLE_TELEMETRY:-"false"}
-PLUGINS=${PLUGINS:-"git,cloudflare,jwt,login,filter,cors,realip,filemanager,cache,expires"}
+VERSION=${VERSION:-"0.11.5"}
+TELEMETRY=${ENABLE_TELEMETRY:-"true"}
 
 # caddy
 git clone https://github.com/mholt/caddy -b "v$VERSION" /go/src/github.com/mholt/caddy \
@@ -15,19 +14,16 @@ alias caddyplug='GOOS=linux GOARCH=amd64 caddyplug'
 
 # telemetry
 run_file="/go/src/github.com/mholt/caddy/caddy/caddymain/run.go"
-line=$(awk '/const enableTelemetry = true/{print NR}' $run_file)
-if [ "$line" ] && [ $TELEMETRY = "false" ]; then
-    sed -i.bak -e "${line}d" $run_file
+if [ "$TELEMETRY" = "false" ]; then
     cat > "$run_file.disablestats.go" <<EOF
     package caddymain
     import "os"
-    var enableTelemetry = $TELEMETRY
     func init() {
         switch os.Getenv("ENABLE_TELEMETRY") {
         case "0", "false":
-            enableTelemetry = false
+            EnableTelemetry = false
         case "1", "true":
-            enableTelemetry = true
+            EnableTelemetry = true
         }
     }
 EOF
